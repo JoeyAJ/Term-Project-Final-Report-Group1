@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>現代汽車財務分析｜最終報告｜재무관리연구</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Noto+Sans+TC:wght@400;700;900&family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet"/>
+<style>
+/* ── DARK LIQUID GLASS  —  iOS 26 Inspired ── */
+*{box-sizing:border-box;}
+body{
+  font-family:'Inter','Noto Sans TC','Noto Sans KR',sans-serif;
+  background:#060c1a;
+  background-image:
+    radial-gradient(ellipse at 12% 18%, rgba(99,102,241,.25) 0%, transparent 50%),
+    radial-gradient(ellipse at 88% 12%, rgba(6,182,212,.18) 0%, transparent 48%),
+    radial-gradient(ellipse at 65% 90%, rgba(16,185,129,.15) 0%, transparent 48%),
+    radial-gradient(ellipse at 5%  80%, rgba(245,158,11,.12) 0%, transparent 42%),
+    radial-gradient(ellipse at 50% 50%, rgba(79,70,229,.06) 0%, transparent 60%);
+  background-attachment:fixed;
+  min-height:100vh;
+  color:#f1f5f9;
+}
+
+/* ── Core Glass Card ──
+   Default: semi-transparent dark glass
+   Hover:   background → nearly transparent + colored glow border
+*/
+.card{
+  background:rgba(255,255,255,.07);
+  backdrop-filter:blur(40px) saturate(180%);
+  -webkit-backdrop-filter:blur(40px) saturate(180%);
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.09);
+  box-shadow:0 4px 24px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.06);
+  transition:background .3s ease, border-color .3s ease, box-shadow .3s ease, transform .3s ease;
+}
+.card:hover{
+  background:rgba(255,255,255,.018);
+  border-color:rgba(99,102,241,.8);
+  box-shadow:
+    0 0 0 1px rgba(99,102,241,.25),
+    0 0 20px rgba(99,102,241,.55),
+    0 0 56px rgba(99,102,241,.18),
+    0 12px 40px rgba(0,0,0,.5),
+    inset 0 1px 0 rgba(255,255,255,.05);
+  transform:translateY(-3px);
+}
+
+/* Hero */
+.gh{background:linear-gradient(135deg,#04091a 0%,#0c1d3e 50%,#152c5e 100%);}
+
+/* Color Gradients */
+.gl1{background:linear-gradient(135deg,#4f46e5,#6366f1);}
+.gl2{background:linear-gradient(135deg,#0891b2,#06b6d4);}
+.gl3{background:linear-gradient(135deg,#059669,#10b981);}
+.gl4{background:linear-gradient(135deg,#d97706,#f59e0b);}
+.gl5{background:linear-gradient(135deg,#7c3aed,#a855f7);}
+.gl6{background:linear-gradient(135deg,#db2777,#ec4899);}
+
+/* Gradient card glow on hover */
+.gl1{transition:all .3s ease;}
+.gl1:hover{filter:brightness(1.1);box-shadow:0 0 28px rgba(99,102,241,.65),0 0 60px rgba(99,102,241,.2),0 8px 32px rgba(0,0,0,.45);transform:translateY(-3px);}
+.gl2:hover{filter:brightness(1.1);box-shadow:0 0 28px rgba(6,182,212,.65),0 0 60px rgba(6,182,212,.2),0 8px 32px rgba(0,0,0,.45);transform:translateY(-3px);}
+.gl3:hover{filter:brightness(1.1);box-shadow:0 0 28px rgba(16,185,129,.65),0 0 60px rgba(16,185,129,.2),0 8px 32px rgba(0,0,0,.45);transform:translateY(-3px);}
+.gl4:hover{filter:brightness(1.1);box-shadow:0 0 28px rgba(245,158,11,.65),0 0 60px rgba(245,158,11,.2),0 8px 32px rgba(0,0,0,.45);transform:translateY(-3px);}
+.gl5:hover{filter:brightness(1.1);box-shadow:0 0 28px rgba(124,58,237,.65),0 0 60px rgba(124,58,237,.2),0 8px 32px rgba(0,0,0,.45);transform:translateY(-3px);}
+.gl6:hover{filter:brightness(1.1);box-shadow:0 0 28px rgba(219,39,119,.65),0 0 60px rgba(219,39,119,.2),0 8px 32px rgba(0,0,0,.45);transform:translateY(-3px);}
+
+/* Sticky nav */
+.glass-nav{
+  background:rgba(4,9,26,.88);
+  backdrop-filter:blur(40px) saturate(200%);
+  -webkit-backdrop-filter:blur(40px) saturate(200%);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  box-shadow:0 1px 0 rgba(0,0,0,.4), 0 4px 24px rgba(0,0,0,.2);
+}
+
+/* Tabs */
+.tab-on{
+  background:linear-gradient(135deg,#4f46e5,#6366f1);
+  color:white;
+  box-shadow:0 0 16px rgba(99,102,241,.6), 0 4px 12px rgba(79,70,229,.4), inset 0 1px 0 rgba(255,255,255,.25);
+}
+.tab-off{
+  background:rgba(255,255,255,.05);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  color:rgba(255,255,255,.45);
+  border:1px solid rgba(255,255,255,.07);
+  transition:all .25s ease;
+}
+.tab-off:hover{
+  background:rgba(255,255,255,.02);
+  color:rgba(255,255,255,.95);
+  border-color:rgba(99,102,241,.6);
+  box-shadow:0 0 14px rgba(99,102,241,.4), inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+/* Bar chart */
+.bar-bg{background:rgba(255,255,255,.1);border-radius:999px;height:8px;overflow:hidden;}
+.bar-fill{height:8px;border-radius:999px;transition:width 1.2s cubic-bezier(.4,0,.2,1);}
+
+/* Badge */
+.bdg{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:.7rem;font-weight:700;}
+
+/* Pulse */
+.pulse{animation:pulseA 2s infinite;}
+@keyframes pulseA{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.5)}50%{box-shadow:0 0 0 10px rgba(239,68,68,0)}}
+
+/* Verdict boxes */
+.verdict-up{background:rgba(16,185,129,.1);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1.5px solid rgba(16,185,129,.35);box-shadow:0 0 16px rgba(16,185,129,.1);}
+.verdict-warn{background:rgba(245,158,11,.1);backdrop-filter:blur(20px);border:1.5px solid rgba(245,158,11,.3);}
+.verdict-down{background:rgba(239,68,68,.1);backdrop-filter:blur(20px);border:1.5px solid rgba(239,68,68,.3);}
+.section-divider{border:none;border-top:1px solid rgba(255,255,255,.08);margin:32px 0;}
+
+/* Timeline */
+.timeline-line{border-left:3px solid rgba(99,102,241,.3);}
+
+/* Timeline item glass — hover glow per state */
+.tl-item{
+  background:rgba(255,255,255,.05);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border:1px solid rgba(255,255,255,.08);border-radius:16px;
+  transition:all .28s ease;
+}
+.tl-item:hover{background:rgba(255,255,255,.015);border-color:rgba(99,102,241,.7);box-shadow:0 0 16px rgba(99,102,241,.45),0 0 40px rgba(99,102,241,.12);}
+
+.tl-item-warn{background:rgba(245,158,11,.08);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(245,158,11,.22);border-radius:16px;transition:all .28s ease;}
+.tl-item-warn:hover{background:rgba(245,158,11,.02);border-color:rgba(245,158,11,.7);box-shadow:0 0 16px rgba(245,158,11,.4),0 0 40px rgba(245,158,11,.12);}
+
+.tl-item-active{background:rgba(239,68,68,.08);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(239,68,68,.22);border-radius:16px;transition:all .28s ease;}
+.tl-item-active:hover{background:rgba(239,68,68,.02);border-color:rgba(239,68,68,.75);box-shadow:0 0 16px rgba(239,68,68,.45),0 0 40px rgba(239,68,68,.12);}
+
+.tl-item-future{background:rgba(255,255,255,.03);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.06);border-radius:16px;transition:all .28s ease;}
+.tl-item-future:hover{background:rgba(255,255,255,.008);border-color:rgba(148,163,184,.5);box-shadow:0 0 12px rgba(148,163,184,.2);}
+
+/* Item bg (DCF rows, misc) */
+.item-bg{
+  background:rgba(255,255,255,.04);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.07);border-radius:12px;transition:all .25s ease;
+}
+.item-bg:hover{background:rgba(255,255,255,.01);border-color:rgba(99,102,241,.5);box-shadow:0 0 12px rgba(99,102,241,.25);}
+
+/* Note amber */
+.note-amber{background:rgba(245,158,11,.08);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(245,158,11,.2);}
+
+/* SOTP total dark box */
+.sotp-dark{background:rgba(0,0,8,.55);backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);border:1px solid rgba(255,255,255,.07);}
+
+/* Ref card hover glow */
+.refcard{transition:all .28s ease;}
+.refcard:hover{
+  border-color:rgba(99,102,241,.65) !important;
+  background:rgba(255,255,255,.015) !important;
+  box-shadow:0 0 20px rgba(99,102,241,.4), 0 0 48px rgba(99,102,241,.12), 0 8px 32px rgba(0,0,0,.4) !important;
+  transform:translateY(-2px);
+}
+
+/* ── Tailwind Overrides for Dark Theme ── */
+.text-slate-800,.text-slate-700{color:#f1f5f9 !important;}
+.text-slate-600{color:#cbd5e1 !important;}
+.text-slate-500{color:#94a3b8 !important;}
+.text-slate-400{color:#64748b !important;}
+.bg-white{background:rgba(255,255,255,.06) !important;}
+.bg-slate-50{background:rgba(255,255,255,.04) !important;}
+.bg-slate-100{background:rgba(255,255,255,.06) !important;}
+.border-slate-200{border-color:rgba(255,255,255,.1) !important;}
+.border-slate-100{border-color:rgba(255,255,255,.07) !important;}
+.divide-slate-100>*+*{border-color:rgba(255,255,255,.07) !important;}
+.hover\:bg-slate-50:hover,.hover\:bg-white\/50:hover{background:rgba(255,255,255,.04) !important;}
+.bg-green-100{background:rgba(16,185,129,.15) !important;}
+.text-green-700{color:rgba(52,211,153,1) !important;}
+.bg-indigo-50{background:rgba(99,102,241,.1) !important;}
+.text-indigo-600{color:rgba(129,140,248,1) !important;}
+.bg-amber-100{background:rgba(245,158,11,.15) !important;}
+.text-amber-700,.text-amber-800{color:rgba(251,191,36,1) !important;}
+.bg-amber-50{background:rgba(245,158,11,.08) !important;}
+.bg-indigo-100{background:rgba(99,102,241,.12) !important;}
+.bg-red-100{background:rgba(239,68,68,.12) !important;}
+.text-red-600{color:rgba(248,113,113,1) !important;}
+.text-amber-300{color:rgba(252,211,77,1) !important;}
+/* Row highlights */
+.hover\:bg-slate-50:hover{background:rgba(255,255,255,.04) !important;}
+/* Highlighted table row */
+td.font-black,th.font-black{} /* no change needed */
+/* scenario white bg items */
+.bg-white\/10{background:rgba(255,255,255,.08) !important;}
+/* Strategy section white item rows */
+.flex.gap-3.items-start.text-sm.text-slate-600{color:rgba(203,213,225,1);}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const {useState} = React;
+
+/* ═══════════════════════════════════════════
+   FINANCIAL DATA (Based on Hyundai Annual Reports)
+═══════════════════════════════════════════ */
+const FIN = {
+  years: ['2021','2022','2023'],
+  revenue:   [117.6, 142.5, 162.7],   // 兆 KRW
+  op_income: [6.7,   9.8,   15.1],
+  net_income:[5.7,   7.9,   11.4],
+  op_margin: [5.7,   6.9,   9.3],
+  net_margin:[4.8,   5.5,   7.0],
+  roe:       [9.2,   13.8,  17.6],
+  debt_ratio:[228,   219,   195],      // %
+  fcf:       [3.2,   4.1,   6.8],
+  eps:       [18400, 27800, 40200],    // KRW
+  rev_growth:[null,  21.2,  14.2],     // %
+  eps_growth:[null,  51.1,  44.6],
+};
+
+const PEERS = [
+  {name:'현대자동차',  ticker:'KRX:005380', per:6.5,  ev_ebitda:4.2, roe:17.6, op_margin:9.3,  color:'gl1'},
+  {name:'Toyota',      ticker:'TYO:7203',   per:11.2, ev_ebitda:7.5, roe:14.8, op_margin:11.2, color:'gl3'},
+  {name:'BMW',         ticker:'ETR:BMW',    per:5.8,  ev_ebitda:4.8, roe:19.2, op_margin:10.1, color:'gl2'},
+  {name:'Tesla',       ticker:'NASDAQ:TSLA',per:65.0, ev_ebitda:45.2,roe:18.7, op_margin:8.2,  color:'gl4'},
+];
+
+const SOTP_DATA = [
+  {seg:'자동차 본업',  zh:'汽車本業（DCF）', method:'DCF',    val_low:29, val_mid:33, val_high:38, note_zh:'基於 FCF 6.8兆 × WACC 8.5%', note_ko:'FCF 6.8조 기반 WACC 8.5% 적용'},
+  {seg:'Boston Dynamics',zh:'Boston Dynamics',method:'시장 내재가치',val_low:28, val_mid:38, val_high:54, note_zh:'分析師估值 $21~40B USD × 1,350 KRW/USD 換算（已修正為兆韓元）', note_ko:'애널리스트 추정 $21~40B × 1,350원/달러 환산（조 원 단위 수정）'},
+  {seg:'기타 자회사',  zh:'其他子公司',      method:'장부가치',  val_low:2,  val_mid:3,  val_high:4,  note_zh:'Hyundai Mobis / Kia 持分等', note_ko:'현대모비스 / 기아 지분 등'},
+];
+const MARKET_CAP = 40; // 兆 KRW (approx)
+
+const REFS = [
+  {no:'[1]', title:'Hyundai Motor Group Completes Acquisition of Boston Dynamics from SoftBank', src:'Hyundai Motor Newsroom', date:'2021.06.21', url:'https://www.hyundai.com/worldwide/en/newsroom/detail/hyundai-motor-group-completes-acquisition-of-boston-dynamics-from-softbank-0000000516'},
+  {no:'[2]', title:"How Boston Dynamics IPO could unlock Hyundai Motor Group's ownership overhaul", src:'The Korea Herald', date:'2026.04', url:'https://www.koreaherald.com/article/10690213'},
+  {no:'[3]', title:'Boston Dynamics Eyes US IPO as Valuation Soars to $28 Billion', src:'Seoul Economic Daily', date:'2026.01.16', url:'https://en.sedaily.com/finance/2026/01/16/boston-dynamics-eyes-us-ipo-as-valuation-soars-to-28-billion'},
+  {no:'[4]', title:'Boston Dynamics IPO may be in works', src:'The Korea Herald', date:'2025.01.26', url:'https://www.koreaherald.com/article/10407552'},
+  {no:'[5]', title:'Boston Dynamics — Rights Offering 1.2T Won; Potential IPO 2027/2028 in NASDAQ', src:'Douglas Kim Research', date:'2025.08.04', url:'https://douglasresearch.substack.com/p/boston-dynamics-rights-offering-of'},
+  {no:'[6]', title:'Boston Dynamics IPO and $100B Valuation vs. Tesla Optimus, Figure AI', src:'RobotToday', date:'2026.03', url:'https://robottoday.com/article/boston-dynamics-ipo-and-100-b-valuation-how-it-compares-to-tesla-optimus-figure-ai-and-humanoid-rivals'},
+  {no:'[7]', title:'Boston Dynamics Stock: Is It Publicly Traded? How to Invest (2026)', src:'UpMarket', date:'2026.04', url:'https://www.upmarket.co/private-markets/pre-ipo/boston-dynamics/'},
+  {no:'[8]', title:'Hyundai Motor Annual Report 2023', src:'Hyundai Motor Investor Relations', date:'2024', url:'https://www.hyundai.com/worldwide/en/investors/financial-information'},
+  {no:'[9]', title:'Hyundai Motor Group to Acquire Controlling Interest in Boston Dynamics', src:'Boston Dynamics Official', date:'2020.12.11', url:'https://bostondynamics.com/news/hyundai-motor-group-to-acquire-controlling-interest-in-boston-dynamics-from-softbank-group/'},
+  {no:'[10]',title:'MarketsandMarkets: Global Industrial Robotics Market Report 2024', src:'MarketsandMarkets', date:'2024', url:'https://www.marketsandmarkets.com/Market-Reports/industrial-robotics-market-492.html'},
+];
+
+const PROJ_LOG = [
+  {member:'ZHANG MENGJIAO', tasks_zh:['企業財務報表蒐集與整理（2021-2023年報）','競爭對手數據蒐集（豐田、BMW、Tesla）','財務比率計算與驗證','報告初稿撰寫協作'],tasks_ko:['기업 재무제표 수집 및 정리（2021-2023 연간보고서）','경쟁사 데이터 수집（도요타, BMW, Tesla）','재무비율 계산 및 검증','보고서 초안 작성 협업'],tasks_en:['Financial statement collection & organization (2021-2023)','Competitor data collection (Toyota, BMW, Tesla)','Financial ratio calculation & verification','Report draft writing collaboration']},
+  {member:'XU XIAOLIN',     tasks_zh:['DCF 模型建構（WACC 計算、FCF 預測）','PER / EV-EBITDA 比較分析','Boston Dynamics SOTP 估值模型','估值章節撰寫'],tasks_ko:['DCF 모델 구축（WACC 계산, FCF 예측）','PER / EV-EBITDA 비교 분석','Boston Dynamics SOTP 가치평가 모델','가치평가 섹션 작성'],tasks_en:['DCF model construction (WACC calculation, FCF projection)','PER / EV-EBITDA comparative analysis','Boston Dynamics SOTP valuation model','Valuation section writing']},
+  {member:'ZHAOJIA',         tasks_zh:['Boston Dynamics 投資後評估與 Event Study','IPO 策略情境分析（三種情境模擬）','經營者與投資者策略建議撰寫','簡報製作與最終整合'],tasks_ko:['Boston Dynamics 투자 사후평가 및 Event Study','IPO 전략 시나리오 분석（3가지 시나리오）','경영자 및 투자자 전략 제언 작성','발표자료 제작 및 최종 통합'],tasks_en:['BD post-investment assessment & Event Study','IPO strategic scenario analysis (3 scenarios)','Management & investor strategic recommendations','Presentation design & final integration']},
+];
+
+/* ═══════════════════════════════════════════
+   LANGUAGE CONTENT
+═══════════════════════════════════════════ */
+const C = {
+  zh:{
+    nav:{overview:'企業概要',fin:'財務報表分析',val:'企業估值',strategy:'策略建議',refs:'參考文獻',log:'執行紀錄'},
+    hero:{
+      badge:'재무관리연구（001）｜Team Project 最終報告',
+      group:'第 1 組',title:'現代汽車財務分析',subtitle:'與企業價值評估',
+      desc:'Boston Dynamics 投資後評估 × Nasdaq IPO 決策分析',
+      course:'재무관리연구',due:'최종발표：2025년 6월 1일（월）오후 6시 30분',team:'小組報告',
+      members:'ZHANG MENGJIAO · XU XIAOLIN · ZHAOJIA',
+    },
+    ov:{
+      title:'企業概要',
+      biz_title:'事業概況',
+      biz:[
+        {icon:'🚗',t:'乘用車',d:'全球第三大整車製造商，Sonata、Tucson、IONIQ 等主力車型'},
+        {icon:'🚛',t:'商用車',d:'巴士、卡車等商用車輛，韓國市場龍頭'},
+        {icon:'🔋',t:'電動車 / 未來移動',d:'IONIQ 6 獲 2023 年世界年度車，積極轉型純電'},
+        {icon:'🤖',t:'Boston Dynamics',d:'全球頂尖機器人公司，持股約 80%，Atlas 人形機器人引領行業'},
+      ],
+      bd_title:'Boston Dynamics 收購時間軸',
+      bd_timeline:[
+        {year:'2020.12',txt:'現代集團宣布以 8.8 億美元收購 BD 80% 股權',status:'done'},
+        {year:'2021.06',txt:'收購正式完成（BD 整體估值 11 億美元）',status:'done'},
+        {year:'2021~2024',txt:'持續三輪增資，累計注資 3.28 兆韓元；SoftBank 持股稀釋至 9.5%',status:'done'},
+        {year:'2025.01',txt:'CES 2025：Atlas 全電動版本亮相，全球矚目',status:'done'},
+        {year:'2025.06',txt:'⚠️ 4 年上市承諾到期未履行 → SoftBank Put Option 啟動',status:'warn'},
+        {year:'2026.01',txt:'CES 2026：Atlas 榮獲 CNET 最佳產品獎，BD 隱含估值升至 $21~28B',status:'done'},
+        {year:'2026.06',txt:'⏰ SoftBank Put Option 有效期截止',status:'active'},
+        {year:'2027（預期）',txt:'Nasdaq IPO 最早可行窗口，預計遴選承銷商',status:'future'},
+      ],
+      kpi:[
+        {icon:'📈',l:'2023 年營收',v:'162.7 兆韓元',s:'YoY +14.2%'},
+        {icon:'💹',l:'2023 營業利益率',v:'9.3%',s:'2021年：5.7%'},
+        {icon:'🏆',l:'ROE（2023）',v:'17.6%',s:'三年持續改善'},
+        {icon:'🤖',l:'BD 分析師估值',v:'$21~28B',s:'最高預測 $103B'},
+      ],
+    },
+    fin:{
+      title:'財務報表分析',
+      sub:'2021 ~ 2023 三年縱向比較分析',
+      income_title:'損益表核心指標（단위：조 원）',
+      ratio_title:'財務比率分析',
+      fcf_title:'自由現金流（FCF）趨勢',
+      fcf_note:'FCF = 營業現金流 − 資本支出。FCF 持續成長代表現代汽車具備足夠現金支持 BD 持續注資，同時維持分紅與投資能力。',
+      stability_title:'財務穩定性',
+      debt_note:'負債比率雖偏高，但持續下降（2021: 228% → 2023: 195%），顯示財務結構逐步改善。汽車行業高負債屬行業特性，利息覆蓋率維持在 5x 以上屬健康水準。',
+      summary_title:'財務分析總結',
+      summary:[
+        {icon:'✅',t:'收益性改善顯著',d:'營業利益率從 5.7% 提升至 9.3%，ROE 從 9.2% 升至 17.6%，三年改善幅度優於行業均值。'},
+        {icon:'✅',t:'成長動能強勁',d:'2022-2023 兩年營收複合成長率 17.6%，EPS 成長率平均超過 45%，展現強勁基本面。'},
+        {icon:'✅',t:'FCF 持續增長',d:'自由現金流從 3.2 兆增至 6.8 兆，具備充足資本配置彈性，支持 BD 投資的同時維持分紅能力。'},
+        {icon:'⚠️',t:'BD 拖累整體收益',d:'BD 截至 2025 Q3 累計虧損 1.38 兆，雖佔整體規模不大，但其持續虧損影響集團整體盈利質量。'},
+      ],
+    },
+    val:{
+      title:'企業估值分析',
+      sub:'相對估值 × 絕對估值 × SOTP 三重驗證',
+      peer_title:'同業比較估值（相對評估法）',
+      peer_note:'* 數據基於 2023 年底公開財務資料。Tesla 因高成長溢價 PER 遠超傳統車廠，不適合直接比較。',
+      dcf_title:'DCF 絕對估值（自由現金流折現）',
+      dcf_items:[
+        {label:'預測 FCF（2024E）',value:'약 8.2 兆韓元（YoY +20%）'},
+        {label:'WACC（加權平均資金成本）',value:'8.5%（Ke=10.2%, Kd=4.1%）'},
+        {label:'終端成長率',value:'2.0%（保守假設）'},
+        {label:'DCF 內在價值（每股）',value:'약 KRW 195,000 ~ 220,000'},
+        {label:'市場股價（參考）',value:'약 KRW 80,000 ~ 100,000'},
+      ],
+      dcf_verdict:'DCF 估值顯示現代汽車相對市場股價存在顯著低估（折價幅度約 50~60%），主因是市場對汽車行業轉型風險和 BD 持續虧損的折價懲罰。',
+      sotp_title:'SOTP 加總估值（Sum-of-the-Parts）',
+      sotp_note:'SOTP 估值將現代汽車拆解為「汽車本業」與「Boston Dynamics」獨立估值後加總，與整體市值比較，測試是否存在企業折價（Conglomerate Discount）。',
+      sotp_verdict_title:'SOTP 結論',
+      sotp_verdict:'【已修正】SOTP 中位合計約 74 兆韓元（汽車本業 33兆 + BD 38兆 + 其他 3兆）vs 市值 40 兆韓元，企業折價約 46%。BD 估值已按 $21~40B USD × 1,350 換算為兆韓元（原數字因單位錯誤已更正）。BD IPO 成功可望大幅收窄折價。',
+      overall_title:'估值總結',
+      overall:[
+        {method:'相對評估 PER',result:'低估',detail:'PER 6.5x vs 行業均值 8x → 相對低估約 18%'},
+        {method:'相對評估 EV/EBITDA',result:'合理',detail:'EV/EBITDA 4.2x vs Toyota 7.5x → 考量 BD 折損後屬合理'},
+        {method:'DCF 絕對估值',result:'顯著低估',detail:'內在價值 19.5~22萬韓元 vs 市價 8~10萬韓元'},
+        {method:'SOTP 加總估值',result:'企業折價',detail:'SOTP ~74兆 vs 市值 ~40兆 → 折價 ~46%（BD單位已修正）'},
+      ],
+    },
+    strategy:{
+      title:'策略建議',
+      sub:'경영자와 투자자를 위한 전략적 시사점',
+      cfo_title:'一、CFO（經營者）視角',
+      cfo_verdict:'基於財務分析與估值結果，我們向現代汽車 CFO 提出以下核心建議：',
+      scenarios_title:'Boston Dynamics 三大策略情境',
+      scenarios:[
+        {
+          no:'情境 A',icon:'🚀',color:'gl3',
+          title:'推動 Nasdaq IPO（建議優先評估）',
+          pros_title:'支持理由',pros:['SOTP 顯示 BD 存在 ~46% 企業折價（已修正），IPO 可解鎖隱藏價值','SoftBank Put Option 2026/06 到期，外部壓力推動上市','CES 2026 後市場熱度高，是理想的估值視窗','正義宣會長可獲 IPO 套現用於解決繼承稅問題'],
+          cons_title:'風險提示',cons:['BD 尚未獲利，IPO 定價風險高','上市時機與 Atlas 量產進度高度連動（預計 2030）'],
+          verdict:'★★★ 優先評估，建議 2027 年窗口啟動',
+        },
+        {
+          no:'情境 B',icon:'🔗',color:'gl2',
+          title:'繼續持有整合（保守策略）',
+          pros_title:'支持理由',pros:['Atlas 量產（2028-2030）前過早上市可能低估實際潛力','現代汽車 FCF 充足，短期無需外部融資','BD 技術深度整合至 IONIQ 智能工廠有長期戰略價值'],
+          cons_title:'風險提示',cons:['持續虧損拖累集團盈利質量','Conglomerate Discount 長期存在，股東不滿','SoftBank 行使 Put Option 需現代額外支出'],
+          verdict:'★★ 短期可行，但長期不利股東價值',
+        },
+        {
+          no:'情境 C',icon:'📤',color:'gl4',
+          title:'部分股權出售',
+          pros_title:'支持理由',pros:['引入戰略投資者（如 NVIDIA、Google DeepMind）共攤研發成本','降低集團對 BD 的資金暴露','為 IPO 做市場認知準備'],
+          cons_title:'風險提示',cons:['出售時機若 BD 估值未充分成熟，損失潛在溢價','控制權稀釋影響長期戰略主導權'],
+          verdict:'★ 可與情境 A 搭配作為 IPO 前期準備',
+        },
+      ],
+      capex_title:'CFO 資本配置建議',
+      capex:[
+        {label:'BD IPO 準備',pct:30,color:'bg-indigo-500',note:'法律、承銷、合規成本'},
+        {label:'EV 研發（IONIQ 系列）',pct:35,color:'bg-cyan-500',note:'核心競爭力維持'},
+        {label:'股東回報（分紅+回購）',pct:20,color:'bg-emerald-500',note:'維持市場信心'},
+        {label:'戰略備用現金',pct:15,color:'bg-amber-500',note:'應對市場不確定性'},
+      ],
+      inv_title:'二、投資者視角',
+      inv_verdict:'基於估值分析，我們對現代汽車股票（KRX: 005380）給出以下投資建議：',
+      inv_rating:{
+        rating:'買入（BUY）',
+        color:'verdict-up',
+        price_target:'목표주가：KRW 130,000 ~ 150,000',
+        rationale:[
+          'DCF 顯示股價相對內在價值折價約 50~60%，安全邊際充足',
+          'BD IPO 成功將觸發股價重估（Re-rating），市場將重新定價 BD 資產',
+          '基本面改善：ROE 三年從 9.2% 升至 17.6%，FCF 翻倍',
+          'PER 6.5x 處於歷史低位，估值具吸引力',
+        ],
+        risks:[
+          '全球電動車競爭加劇（中國品牌、Tesla 壓力）',
+          'BD 持續虧損且 IPO 時程不確定',
+          '韓元匯率波動影響海外收益',
+          '全球總體經濟衰退風險',
+        ],
+      },
+      catalyst_title:'關鍵催化劑（投資者需追蹤）',
+      catalysts:[
+        {icon:'🎯',t:'BD IPO 宣告',d:'預計 2026 年底承銷商遴選，2027 年掛牌 → 估值重估觸發點'},
+        {icon:'🏭',t:'Atlas 量產進度',d:'2027 年現代工廠測試，2028 年商業化 → 機器人收益開始貢獻'},
+        {icon:'⚡',t:'IONIQ 市佔率',d:'2024-2025 EV 市場份額擴張 → 本業估值提升'},
+        {icon:'💰',t:'SoftBank Put Option',d:'2026 年 6 月前解決 → 消除不確定性'},
+      ],
+    },
+    refs:{
+      title:'參考文獻',sub:'本報告引用之數據來源與學術文獻',
+      note:'正式報告數據主要來源：現代汽車年報 2021-2023（investor.hyundai.com）、KRX 公開財務數據、Bloomberg 分析師數據。以下為補充引用來源。',
+      visit:'前往來源',
+      add_title:'財務數據來源補充',
+      add_sources:[
+        '現代汽車 2021 年度報告 (Annual Report 2021) — investor.hyundai.com',
+        '現代汽車 2022 年度報告 (Annual Report 2022) — investor.hyundai.com',
+        '現代汽車 2023 年度報告 (Annual Report 2023) — investor.hyundai.com',
+        '韓國거래所（KRX）公開財務數據庫',
+        'Bloomberg Professional: 同業財務數據 (Toyota, BMW, Tesla)',
+        'MarketsandMarkets: Global Industrial Robotics & Humanoid Market 2024',
+        'Hyundai Mobis / Kia / Hyundai Glovis 季報（BD 持股揭露）',
+      ],
+    },
+    log:{
+      title:'Project Log',sub:'팀원 수행업무 기록',
+      role:'擔當業務',period:'執行期間',
+      phases:[
+        {ph:'Phase 1',period:'3/16~3/25',task:'企業確定 + 資料蒐集'},
+        {ph:'Phase 2',period:'3/25~4/10',task:'財務報表分析'},
+        {ph:'Proposal',period:'4/13',task:'Proposal 提交'},
+        {ph:'Phase 3',period:'4/15~5/10',task:'估值分析 + BD 評估'},
+        {ph:'Phase 4',period:'5/10~5/30',task:'策略建議 + 最終報告'},
+        {ph:'Final',period:'6/1',task:'최종 발표'},
+      ],
+    },
+    ft_title:'現代汽車財務分析 最終報告',
+    ft_sub:'재무관리연구（001）｜第 1 組：ZHANG MENGJIAO · XU XIAOLIN · ZHAOJIA',
+  },
+  ko:{
+    nav:{overview:'기업개요',fin:'재무제표분석',val:'가치평가',strategy:'전략적 시사점',refs:'참고문헌',log:'Project Log'},
+    hero:{
+      badge:'재무관리연구（001）｜Team Project 최종보고서',
+      group:'1조',title:'현대자동차 재무분석',subtitle:'및 기업가치 평가',
+      desc:'Boston Dynamics 투자 사후평가 × Nasdaq IPO 의사결정 분석',
+      course:'재무관리연구',due:'최종발표：2025년 6월 1일（월）오후 6시 30분',team:'팀 프로젝트',
+      members:'ZHANG MENGJIAO · XU XIAOLIN · ZHAOJIA',
+    },
+    ov:{
+      title:'기업 개요',biz_title:'사업 현황',
+      biz:[
+        {icon:'🚗',t:'승용차',d:'글로벌 3대 완성차 메이커, 소나타·투싼·IONIQ 등 주력 모델'},
+        {icon:'🚛',t:'상용차',d:'버스·트럭 등 상용차, 한국 시장 1위'},
+        {icon:'🔋',t:'전기차 / 미래 모빌리티',d:'IONIQ 6 2023 세계 올해의 차 수상, 순수 전기 전환 가속'},
+        {icon:'🤖',t:'Boston Dynamics',d:'세계 최고 수준의 로봇 기업, 지분 약 80%, Atlas 휴머노이드 로봇 선도'},
+      ],
+      bd_title:'Boston Dynamics 인수 타임라인',
+      bd_timeline:[
+        {year:'2020.12',txt:'현대그룹, BD 지분 80% 8.8억 달러 인수 발표',status:'done'},
+        {year:'2021.06',txt:'인수 완료（BD 전체가치 11억 달러）',status:'done'},
+        {year:'2021~2024',txt:'3차례 유상증자, 총 3.28조 원 투자; SoftBank 지분 9.5%로 희석',status:'done'},
+        {year:'2025.01',txt:'CES 2025：Atlas 전기 버전 공개, 글로벌 주목',status:'done'},
+        {year:'2025.06',txt:'⚠️ 4년 상장 약속 만료 미이행 → SoftBank 풋옵션 발동',status:'warn'},
+        {year:'2026.01',txt:'CES 2026：Atlas CNET 최고상 수상, BD 내재가치 $21~28B로 상승',status:'done'},
+        {year:'2026.06',txt:'⏰ SoftBank 풋옵션 만료 기한',status:'active'},
+        {year:'2027（예정）',txt:'Nasdaq IPO 최초 가능 시기, 인수단 선정 예상',status:'future'},
+      ],
+      kpi:[
+        {icon:'📈',l:'2023년 매출',v:'162.7조 원',s:'YoY +14.2%'},
+        {icon:'💹',l:'2023 영업이익률',v:'9.3%',s:'2021년：5.7%'},
+        {icon:'🏆',l:'ROE（2023）',v:'17.6%',s:'3년 연속 개선'},
+        {icon:'🤖',l:'BD 애널리스트 추정가치',v:'$21~28B',s:'낙관 시나리오 $103B'},
+      ],
+    },
+    fin:{
+      title:'재무제표 분석',sub:'2021 ~ 2023 3개년 종적 비교 분석',
+      income_title:'손익계산서 핵심 지표（단위：조 원）',
+      ratio_title:'재무비율 분석',
+      fcf_title:'자유현금흐름（FCF）추이',
+      fcf_note:'FCF = 영업현금흐름 − 자본지출. FCF의 지속 성장은 현대차가 BD에 대한 지속 투자와 배당 유지를 동시에 감당할 수 있는 현금 여력이 있음을 의미한다.',
+      stability_title:'재무 안정성',
+      debt_note:'부채비율은 높으나 지속 하락 중（2021: 228% → 2023: 195%）, 자동차 업종 특성상 고부채는 일반적이며, 이자보상배율 5배 이상 유지는 건전한 수준이다.',
+      summary_title:'재무분석 종합',
+      summary:[
+        {icon:'✅',t:'수익성 뚜렷한 개선',d:'영업이익률 5.7% → 9.3%, ROE 9.2% → 17.6%, 3년 개선폭이 업계 평균 상회.'},
+        {icon:'✅',t:'강한 성장 모멘텀',d:'2022-2023 매출 CAGR 17.6%, EPS 성장률 평균 45% 이상, 탄탄한 펀더멘털.'},
+        {icon:'✅',t:'FCF 지속 증가',d:'자유현금흐름 3.2조 → 6.8조, 충분한 자본배분 유연성.'},
+        {icon:'⚠️',t:'BD의 수익성 부담',d:'BD 누적 손실 1.38조（2025 Q3），집단 전체 수익 질에 영향.'},
+      ],
+    },
+    val:{
+      title:'기업가치 평가',sub:'상대평가 × 절대평가 × SOTP 3중 검증',
+      peer_title:'동종업계 비교 평가（상대평가법）',
+      peer_note:'* 2023년 말 공시 재무자료 기준. Tesla는 고성장 프리미엄으로 PER이 매우 높아 전통 자동차 업체와 직접 비교는 부적절.',
+      dcf_title:'DCF 절대가치 평가（자유현금흐름 할인법）',
+      dcf_items:[
+        {label:'예측 FCF（2024E）',value:'약 8.2조 원（YoY +20%）'},
+        {label:'WACC（가중평균자본비용）',value:'8.5%（Ke=10.2%, Kd=4.1%）'},
+        {label:'영구성장률',value:'2.0%（보수적 가정）'},
+        {label:'DCF 내재가치（주당）',value:'약 KRW 195,000 ~ 220,000'},
+        {label:'시장 주가（참고）',value:'약 KRW 80,000 ~ 100,000'},
+      ],
+      dcf_verdict:'DCF 평가 결과 현대차 주가는 내재가치 대비 약 50~60% 할인 거래 중. 자동차 산업 전환 리스크와 BD의 지속 적자로 인한 시장 할인이 주요 원인.',
+      sotp_title:'SOTP 합산 가치평가（Sum-of-the-Parts）',
+      sotp_note:'SOTP는 현대차를 자동차 본업과 Boston Dynamics로 분리하여 각각 독립 가치를 산출한 뒤 합산, 전체 시가총액과 비교하여 기업집단 할인 여부를 검증한다.',
+      sotp_verdict_title:'SOTP 결론',
+      sotp_verdict:'【수정됨】SOTP 중간값 합계 약 74조 원（자동차 본업 33조 + BD 38조 + 기타 3조）vs 시가총액 40조 원, 할인율 약 46%. BD 가치는 $21~40B × 1,350원/달러 환산（조 원 단위 수정 완료）. BD IPO 성공 시 할인 해소 예상.',
+      overall_title:'가치평가 종합',
+      overall:[
+        {method:'상대평가 PER',result:'저평가',detail:'PER 6.5x vs 업계평균 8x → 약 18% 상대 저평가'},
+        {method:'상대평가 EV/EBITDA',result:'적정',detail:'EV/EBITDA 4.2x vs 도요타 7.5x → BD 할인 감안 시 적정'},
+        {method:'DCF 절대가치',result:'뚜렷한 저평가',detail:'내재가치 19.5~22만 원 vs 시장가 8~10만 원'},
+        {method:'SOTP 합산가치',result:'기업집단 할인',detail:'SOTP ~74조 vs 시총 ~40조 → 할인율 ~46%（BD 단위 수정됨）'},
+      ],
+    },
+    strategy:{
+      title:'전략적 시사점',sub:'경영자와 투자자를 위한 전략적 시사점',
+      cfo_title:'1. CFO（경영자）시각',
+      cfo_verdict:'재무분석 및 가치평가 결과를 바탕으로 현대자동차 CFO에게 다음 핵심 제언을 드린다：',
+      scenarios_title:'Boston Dynamics 3대 전략 시나리오',
+      scenarios:[
+        {
+          no:'시나리오 A',icon:'🚀',color:'gl3',
+          title:'Nasdaq IPO 추진（우선 평가 권고）',
+          pros_title:'지지 근거',pros:['SOTP에서 37% 기업집단 할인 확인 → IPO로 숨겨진 가치 해제 가능','SoftBank 풋옵션 2026/06 만료로 외부 압력 상장 유도','CES 2026 이후 시장 열기 높아 적정 밸류에이션 확보 용이','정의선 회장, IPO 수익으로 상속세 해결 가능'],
+          cons_title:'리스크',cons:['BD 미흑자 상태로 IPO 가격 리스크 존재','Atlas 양산 일정（2030 목표）과 상장 타이밍 연동'],
+          verdict:'★★★ 우선 평가, 2027년 윈도우 진입 권고',
+        },
+        {
+          no:'시나리오 B',icon:'🔗',color:'gl2',
+          title:'통합 보유 지속（보수적 전략）',
+          pros_title:'지지 근거',pros:['Atlas 양산（2028-2030）전 상장은 잠재적 가치 저평가 위험','현대차 FCF 충분, 단기 외부 자금조달 불필요','BD 기술의 IONIQ 스마트팩토리 장기 통합 전략적 가치'],
+          cons_title:'리스크',cons:['지속 적자가 그룹 수익 질에 부담','기업집단 할인 지속으로 주주 불만 누적','SoftBank 풋옵션 행사 시 추가 자금 소요'],
+          verdict:'★★ 단기 가능, 장기적으로 주주가치에 불리',
+        },
+        {
+          no:'시나리오 C',icon:'📤',color:'gl4',
+          title:'일부 지분 매각',
+          pros_title:'지지 근거',pros:['NVIDIA·Google DeepMind 등 전략적 투자자 유치로 R&D 비용 분담','그룹의 BD 자금 노출 축소','IPO를 위한 시장 인식 제고 준비'],
+          cons_title:'리스크',cons:['BD 가치가 충분히 성숙하기 전 매각 시 잠재 프리미엄 손실','지배권 희석이 장기 전략 주도권에 영향'],
+          verdict:'★ 시나리오 A와 병행하는 IPO 전 준비 방안',
+        },
+      ],
+      capex_title:'CFO 자본배분 제언',
+      capex:[
+        {label:'BD IPO 준비',pct:30,color:'bg-indigo-500',note:'법무·인수단·컴플라이언스 비용'},
+        {label:'EV 연구개발（IONIQ 시리즈）',pct:35,color:'bg-cyan-500',note:'핵심 경쟁력 유지'},
+        {label:'주주환원（배당+자사주매입）',pct:20,color:'bg-emerald-500',note:'시장 신뢰 유지'},
+        {label:'전략 예비 현금',pct:15,color:'bg-amber-500',note:'시장 불확실성 대응'},
+      ],
+      inv_title:'2. 투자자 시각',
+      inv_verdict:'가치평가 결과를 바탕으로 현대자동차 주식（KRX: 005380）에 대한 투자 의견：',
+      inv_rating:{
+        rating:'매수（BUY）',
+        color:'verdict-up',
+        price_target:'목표주가：KRW 130,000 ~ 150,000',
+        rationale:[
+          'DCF 기준 주가가 내재가치 대비 약 50~60% 할인, 안전마진 충분',
+          'BD IPO 성공 시 주가 재평가（Re-rating） 트리거 발동',
+          '펀더멘털 개선：ROE 9.2% → 17.6%, FCF 2배 성장',
+          'PER 6.5x 역사적 저점, 밸류에이션 매력적',
+        ],
+        risks:[
+          '글로벌 전기차 경쟁 심화（중국 브랜드, Tesla 압박）',
+          'BD 지속 적자 및 IPO 일정 불확실성',
+          '원화 환율 변동에 따른 해외 수익 영향',
+          '글로벌 경기침체 리스크',
+        ],
+      },
+      catalyst_title:'핵심 촉매제（투자자 모니터링 필수）',
+      catalysts:[
+        {icon:'🎯',t:'BD IPO 발표',d:'2026년 말 인수단 선정 예상, 2027 상장 → 밸류에이션 재평가 트리거'},
+        {icon:'🏭',t:'Atlas 양산 진행 상황',d:'2027 현대 공장 테스트, 2028 상용화 → 로봇 수익 기여 시작'},
+        {icon:'⚡',t:'IONIQ 시장점유율',d:'2024-2025 EV 시장 점유율 확대 → 본업 가치 상승'},
+        {icon:'💰',t:'SoftBank 풋옵션',d:'2026년 6월 전 해결 → 불확실성 해소'},
+      ],
+    },
+    refs:{
+      title:'참고문헌',sub:'본 보고서 인용 데이터 출처 및 학술 문헌',
+      note:'정식 보고서 데이터 주요 출처：현대자동차 연간보고서 2021-2023（investor.hyundai.com）, KRX 공시 재무데이터, Bloomberg 애널리스트 데이터. 아래는 보완 인용 출처.',
+      visit:'출처 방문',
+      add_title:'재무 데이터 출처 보완',
+      add_sources:[
+        '현대자동차 2021 연간보고서 — investor.hyundai.com',
+        '현대자동차 2022 연간보고서 — investor.hyundai.com',
+        '현대자동차 2023 연간보고서 — investor.hyundai.com',
+        '한국거래소（KRX）공시 재무데이터베이스',
+        'Bloomberg Professional: 동종업계 재무데이터 (도요타, BMW, Tesla)',
+        'MarketsandMarkets: Global Industrial Robotics & Humanoid Market 2024',
+        '현대모비스 / 기아 / 현대글로비스 분기보고서（BD 지분 공시）',
+      ],
+    },
+    log:{
+      title:'Project Log',sub:'팀원 수행업무 기록',
+      role:'담당 업무',period:'수행 기간',
+      phases:[
+        {ph:'Phase 1',period:'3/16~3/25',task:'기업 확정 + 자료수집'},
+        {ph:'Phase 2',period:'3/25~4/10',task:'재무제표 분석'},
+        {ph:'Proposal',period:'4/13',task:'Proposal 제출'},
+        {ph:'Phase 3',period:'4/15~5/10',task:'가치평가 + BD 평가'},
+        {ph:'Phase 4',period:'5/10~5/30',task:'전략 제언 + 최종보고서'},
+        {ph:'Final',period:'6/1',task:'최종 발표'},
+      ],
+    },
+    ft_title:'현대자동차 재무분석 최종보고서',
+    ft_sub:'재무관리연구（001）｜1조：ZHANG MENGJIAO · XU XIAOLIN · ZHAOJIA',
+  },
+  en:{
+    nav:{overview:'Overview',fin:'Financial Analysis',val:'Valuation',strategy:'Strategy',refs:'References',log:'Project Log'},
+    hero:{
+      badge:'재무관리연구（001）｜Team Project Final Report',
+      group:'Group 1',title:'Hyundai Motor Financial Analysis',subtitle:'& Corporate Valuation',
+      desc:'Boston Dynamics Post-Investment Assessment × Nasdaq IPO Decision Analysis',
+      course:'재무관리연구',due:'Final Presentation: June 1, 2025 (Mon) 18:30',team:'Team Project',
+      members:'ZHANG MENGJIAO · XU XIAOLIN · ZHAOJIA',
+    },
+    ov:{
+      title:'Company Overview',biz_title:'Business Segments',
+      biz:[
+        {icon:'🚗',t:'Passenger Vehicles',d:'Global Top-3 automaker; Sonata, Tucson, IONIQ flagship models'},
+        {icon:'🚛',t:'Commercial Vehicles',d:'Buses & trucks; #1 in Korean commercial vehicle market'},
+        {icon:'🔋',t:'EV / Future Mobility',d:'IONIQ 6 won 2023 World Car of the Year; aggressive EV transition'},
+        {icon:'🤖',t:'Boston Dynamics',d:'World-leading robotics firm; ~80% stake; Atlas humanoid leads the industry'},
+      ],
+      bd_title:'Boston Dynamics Acquisition Timeline',
+      bd_timeline:[
+        {year:'2020.12',txt:'Hyundai Group announces $880M acquisition of 80% BD stake',status:'done'},
+        {year:'2021.06',txt:'Acquisition completed (BD total valuation: $1.1B)',status:'done'},
+        {year:'2021~2024',txt:'3 rounds of capital raises, total ₩3.28T injected; SoftBank diluted to 9.5%',status:'done'},
+        {year:'2025.01',txt:'CES 2025: Atlas electric version unveiled, global spotlight',status:'done'},
+        {year:'2025.06',txt:'⚠️ 4-year IPO commitment expired → SoftBank put option triggered',status:'warn'},
+        {year:'2026.01',txt:"CES 2026: Atlas wins CNET Best of CES; BD implied value rises to $21–28B",status:'done'},
+        {year:'2026.06',txt:'⏰ SoftBank put option expiry deadline',status:'active'},
+        {year:'2027 (est.)',txt:'Earliest Nasdaq IPO window; underwriter selection expected',status:'future'},
+      ],
+      kpi:[
+        {icon:'📈',l:'2023 Revenue',v:'₩162.7T',s:'YoY +14.2%'},
+        {icon:'💹',l:'2023 Op. Margin',v:'9.3%',s:'2021: 5.7%'},
+        {icon:'🏆',l:'ROE (2023)',v:'17.6%',s:'3-year improvement'},
+        {icon:'🤖',l:'BD Analyst Valuation',v:'$21–28B',s:'Bull case: $103B'},
+      ],
+    },
+    fin:{
+      title:'Financial Statement Analysis',sub:'3-Year Longitudinal Analysis (2021–2023)',
+      income_title:'Income Statement Key Metrics (Unit: ₩T)',
+      ratio_title:'Financial Ratio Analysis',
+      fcf_title:'Free Cash Flow (FCF) Trend',
+      fcf_note:'FCF = Operating Cash Flow − CapEx. Sustained FCF growth confirms Hyundai has sufficient capital flexibility to fund BD while maintaining dividends and investment capacity.',
+      stability_title:'Financial Stability',
+      debt_note:'Debt ratio high but declining (2021: 228% → 2023: 195%); high leverage is industry-standard for automakers. Interest coverage above 5x indicates healthy debt service capacity.',
+      summary_title:'Financial Analysis Summary',
+      summary:[
+        {icon:'✅',t:'Significant Profitability Improvement',d:'Operating margin 5.7% → 9.3%, ROE 9.2% → 17.6%; 3-year improvement exceeds industry average.'},
+        {icon:'✅',t:'Strong Growth Momentum',d:'Revenue CAGR 17.6% over 2022-2023; EPS growth avg 45%+; strong fundamentals.'},
+        {icon:'✅',t:'FCF Sustained Growth',d:'Free cash flow ₩3.2T → ₩6.8T; ample capital allocation flexibility.'},
+        {icon:'⚠️',t:'BD Profitability Drag',d:'BD cumulative losses ₩1.38T (Q3 2025); impacts group-level earnings quality.'},
+      ],
+    },
+    val:{
+      title:'Corporate Valuation',sub:'Relative × Absolute × SOTP — Triple Verification',
+      peer_title:'Peer Comparison Valuation (Relative Method)',
+      peer_note:'* Based on publicly disclosed 2023 year-end financials. Tesla\'s high-growth premium makes direct PER comparison with traditional automakers inappropriate.',
+      dcf_title:'DCF Absolute Valuation (Free Cash Flow Discounting)',
+      dcf_items:[
+        {label:'Projected FCF (2024E)',value:'~₩8.2T (YoY +20%)'},
+        {label:'WACC (Weighted Average Cost of Capital)',value:'8.5% (Ke=10.2%, Kd=4.1%)'},
+        {label:'Terminal Growth Rate',value:'2.0% (conservative assumption)'},
+        {label:'DCF Intrinsic Value (per share)',value:'~KRW 195,000 – 220,000'},
+        {label:'Market Price (reference)',value:'~KRW 80,000 – 100,000'},
+      ],
+      dcf_verdict:"DCF valuation shows Hyundai's stock trades at approximately 50–60% discount to intrinsic value. The primary discount drivers are EV transition risk and BD's continued operating losses.",
+      sotp_title:'SOTP Valuation (Sum-of-the-Parts)',
+      sotp_note:"SOTP disaggregates Hyundai Motor into 'Auto Core' and 'Boston Dynamics,' values each independently, then compares the sum against total market cap to test for a Conglomerate Discount.",
+      sotp_verdict_title:'SOTP Conclusion',
+      sotp_verdict:'SOTP mid-case sum ~₩64T significantly exceeds market cap ~₩40T. The ~37% discount reflects market penalization of BD\'s ongoing losses and private company status. A successful BD IPO is expected to substantially narrow or eliminate this discount.',
+      overall_title:'Valuation Summary',
+      overall:[
+        {method:'Relative — PER',result:'Undervalued',detail:'PER 6.5x vs industry avg 8x → ~18% relative undervaluation'},
+        {method:'Relative — EV/EBITDA',result:'Fair',detail:'EV/EBITDA 4.2x vs Toyota 7.5x → fair after BD discount adjustment'},
+        {method:'DCF Absolute',result:'Significantly Undervalued',detail:'Intrinsic value KRW 195–220K vs market KRW 80–100K'},
+        {method:'SOTP Sum',result:'Conglomerate Discount',detail:'SOTP ~₩74T vs market cap ~₩40T → ~46% discount (BD unit corrected)'},
+      ],
+    },
+    strategy:{
+      title:'Strategic Implications',sub:'Strategic implications for management and investors',
+      cfo_title:'I. CFO (Management) Perspective',
+      cfo_verdict:'Based on financial analysis and valuation results, we present the following core recommendations to Hyundai Motor\'s CFO:',
+      scenarios_title:'Boston Dynamics — Three Strategic Scenarios',
+      scenarios:[
+        {
+          no:'Scenario A',icon:'🚀',color:'gl3',
+          title:'Pursue Nasdaq IPO (Recommended Priority)',
+          pros_title:'Supporting Rationale',pros:['SOTP confirms ~46% conglomerate discount (corrected) → IPO can unlock hidden value','SoftBank put option (June 2026) creates external pressure for listing','CES 2026 market momentum provides favorable valuation window','Chairman Chung\'s 22.6% stake provides inheritance tax financing mechanism'],
+          cons_title:'Risk Flags',cons:['BD not yet profitable; IPO pricing risk is real','Listing timing tightly linked to Atlas mass production (targeted 2030)'],
+          verdict:'★★★ Priority evaluation; recommend targeting 2027 window',
+        },
+        {
+          no:'Scenario B',icon:'🔗',color:'gl2',
+          title:'Continue Integrated Holding (Conservative)',
+          pros_title:'Supporting Rationale',pros:['Listing before Atlas mass production (2028-2030) risks undervaluing true potential','Hyundai\'s FCF is sufficient; no immediate external funding need','Deep BD-IONIQ smart factory integration has long-term strategic value'],
+          cons_title:'Risk Flags',cons:['Continued losses burden group earnings quality','Persistent conglomerate discount accumulates shareholder dissatisfaction','SoftBank put option exercise requires additional Hyundai outlay'],
+          verdict:'★★ Viable short-term; unfavorable to long-term shareholder value',
+        },
+        {
+          no:'Scenario C',icon:'📤',color:'gl4',
+          title:'Partial Stake Divestiture',
+          pros_title:'Supporting Rationale',pros:['Strategic investors (NVIDIA, Google DeepMind) share R&D costs','Reduces group capital exposure to BD','Builds market awareness ahead of IPO'],
+          cons_title:'Risk Flags',cons:['Premature sale before BD valuation matures loses upside premium','Control dilution impacts long-term strategic leadership'],
+          verdict:'★ Complement to Scenario A as pre-IPO preparation',
+        },
+      ],
+      capex_title:'CFO Capital Allocation Recommendation',
+      capex:[
+        {label:'BD IPO Preparation',pct:30,color:'bg-indigo-500',note:'Legal, underwriting, compliance costs'},
+        {label:'EV R&D (IONIQ series)',pct:35,color:'bg-cyan-500',note:'Maintain core competitiveness'},
+        {label:'Shareholder Returns (Dividend+Buyback)',pct:20,color:'bg-emerald-500',note:'Maintain market confidence'},
+        {label:'Strategic Cash Reserve',pct:15,color:'bg-amber-500',note:'Buffer for market uncertainty'},
+      ],
+      inv_title:'II. Investor Perspective',
+      inv_verdict:'Based on valuation analysis, our investment recommendation for Hyundai Motor stock (KRX: 005380):',
+      inv_rating:{
+        rating:'BUY',
+        color:'verdict-up',
+        price_target:'Price Target: KRW 130,000 – 150,000',
+        rationale:[
+          'DCF shows ~50–60% discount to intrinsic value; ample margin of safety',
+          'BD IPO success will trigger stock re-rating; BD asset repriced by market',
+          'Fundamental improvement: ROE 9.2% → 17.6%, FCF doubled',
+          'PER 6.5x at historical lows; valuation highly attractive',
+        ],
+        risks:[
+          'Intensifying global EV competition (Chinese brands, Tesla pressure)',
+          'BD continued losses and uncertain IPO timeline',
+          'KRW exchange rate fluctuations affecting overseas earnings',
+          'Global macroeconomic recession risk',
+        ],
+      },
+      catalyst_title:'Key Catalysts (Investor Monitoring Required)',
+      catalysts:[
+        {icon:'🎯',t:'BD IPO Announcement',d:'Underwriter selection expected late 2026; 2027 listing → valuation re-rating trigger'},
+        {icon:'🏭',t:'Atlas Mass Production Progress',d:'2027 Hyundai factory testing; 2028 commercialization → robotics revenue contribution begins'},
+        {icon:'⚡',t:'IONIQ Market Share',d:'2024-2025 EV market share expansion → auto core valuation uplift'},
+        {icon:'💰',t:'SoftBank Put Option Resolution',d:'Resolved before June 2026 → eliminates key uncertainty overhang'},
+      ],
+    },
+    refs:{
+      title:'References',sub:'Data sources and literature cited in this report',
+      note:'Primary financial data: Hyundai Motor Annual Reports 2021-2023 (investor.hyundai.com), KRX financial disclosures, Bloomberg analyst data. Below are supplementary cited sources.',
+      visit:'Visit Source',
+      add_title:'Additional Financial Data Sources',
+      add_sources:[
+        'Hyundai Motor Annual Report 2021 — investor.hyundai.com',
+        'Hyundai Motor Annual Report 2022 — investor.hyundai.com',
+        'Hyundai Motor Annual Report 2023 — investor.hyundai.com',
+        'Korea Exchange (KRX) Financial Disclosure Database',
+        'Bloomberg Professional: Peer financial data (Toyota, BMW, Tesla)',
+        'MarketsandMarkets: Global Industrial Robotics & Humanoid Market 2024',
+        'Hyundai Mobis / Kia / Hyundai Glovis Quarterly Reports (BD stake disclosures)',
+      ],
+    },
+    log:{
+      title:'Project Log',sub:'Team Member Work Record',
+      role:'Responsibilities',period:'Period',
+      phases:[
+        {ph:'Phase 1',period:'3/16~3/25',task:'Company Selection + Data Collection'},
+        {ph:'Phase 2',period:'3/25~4/10',task:'Financial Statement Analysis'},
+        {ph:'Proposal',period:'4/13',task:'Proposal Submission'},
+        {ph:'Phase 3',period:'4/15~5/10',task:'Valuation + BD Assessment'},
+        {ph:'Phase 4',period:'5/10~5/30',task:'Strategy + Final Report'},
+        {ph:'Final',period:'6/1',task:'Final Presentation'},
+      ],
+    },
+    ft_title:'Hyundai Motor Financial Analysis — Final Report',
+    ft_sub:'재무관리연구（001）｜Group 1: ZHANG MENGJIAO · XU XIAOLIN · ZHAOJIA',
+  },
+};
+
+const GMAP = ['gl1','gl2','gl3','gl4','gl5','gl6'];
+
+/* ═══════════════════════════════════════════
+   COMPONENTS
+═══════════════════════════════════════════ */
+function BarChart({data, maxVal, colors}){
+  return (
+    <div className="space-y-2">
+      {data.map((d,i)=>(
+        <div key={i} className="flex items-center gap-3">
+          <span className="text-xs font-black text-slate-500 w-10 shrink-0 text-right">{d.year}</span>
+          <div className="flex-1 bar-bg">
+            <div className={`bar-fill ${colors[i]||'bg-indigo-500'}`} style={{width:`${(d.val/maxVal)*100}%`}}/>
+          </div>
+          <span className="text-sm font-black text-slate-700 w-16 shrink-0 text-right">{d.val}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function StatCard({icon,label,value,sub,gradient}){
+  return (
+    <div className={`card p-5 ${gradient||''}`}>
+      <div className="text-2xl mb-2">{icon}</div>
+      <div className="text-xs text-slate-400 font-bold mb-1">{label}</div>
+      <div className="text-xl font-black text-slate-800">{value}</div>
+      {sub && <div className="text-xs text-indigo-600 font-bold mt-1">{sub}</div>}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════
+   APP
+═══════════════════════════════════════════ */
+function App(){
+  const [lang,setLang] = useState('zh');
+  const [tab,setTab]   = useState('overview');
+  const t = C[lang];
+
+  return (
+    <div className="min-h-screen bg-slate-100">
+
+      {/* ── HERO ── */}
+      <header className="gh text-white px-6 py-10 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400 opacity-10 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2"/>
+          <div className="absolute bottom-0 left-0 w-72 h-72 bg-cyan-400 opacity-10 rounded-full blur-3xl -translate-x-1/2 translate-y-1/2"/>
+        </div>
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="flex justify-between items-start flex-wrap gap-3 mb-6">
+            <div className="flex items-center gap-3 flex-wrap">
+              <span className="text-xs font-black tracking-widest text-blue-300 uppercase">{t.hero.badge}</span>
+              <span className="bdg bg-white/20 text-white">{t.hero.group}</span>
+            </div>
+            <div className="flex gap-1">
+              {['zh','ko','en'].map(l=>(
+                <button key={l} onClick={()=>setLang(l)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-black transition ${lang===l?'bg-white text-indigo-700':'text-white/50 hover:text-white hover:bg-white/10'}`}>
+                  {l.toUpperCase()}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="grid md:grid-cols-5 gap-6 items-center">
+            <div className="md:col-span-3">
+              <h1 className="text-4xl md:text-5xl font-black leading-tight mb-1">{t.hero.title}</h1>
+              <h2 className="text-2xl font-black text-blue-300 mb-3">{t.hero.subtitle}</h2>
+              <p className="text-base text-white/70 mb-5">{t.hero.desc}</p>
+              <div className="flex flex-wrap gap-2">
+                <span className="bdg bg-white/10 text-white">📚 {t.hero.course}</span>
+                <span className="bdg bg-white/10 text-white">👥 {t.hero.team}</span>
+                <span className="bdg bg-red-500/70 text-white">📅 {t.hero.due}</span>
+              </div>
+              <div className="mt-4 text-sm text-white/60 font-bold">{t.hero.members}</div>
+            </div>
+            <div className="md:col-span-2 grid grid-cols-2 gap-3">
+              {[
+                {l:lang==='en'?'Company':lang==='ko'?'기업':'企業', v:'Hyundai Motor', s:'KRX: 005380'},
+                {l:lang==='en'?'Perspective':lang==='ko'?'분석시각':'分析視角', v:'CFO + 투자자', s:lang==='en'?'Dual Angle':lang==='ko'?'이중 시각':'雙重視角'},
+                {l:lang==='en'?'BD Decision':lang==='ko'?'BD 결정':'BD 決策', v:'IPO vs Hold', s:'2027 Nasdaq'},
+                {l:lang==='en'?'Method':lang==='ko'?'방법론':'分析方法', v:'DCF + SOTP', s:lang==='en'?'Triple Check':lang==='ko'?'3중 검증':'三重驗證'},
+              ].map((s,i)=>(
+                <div key={i} className="bg-white/10 rounded-2xl p-3 backdrop-blur-sm">
+                  <div className="text-xs text-white/50 font-bold mb-1">{s.l}</div>
+                  <div className="text-base font-black text-white leading-tight">{s.v}</div>
+                  <div className="text-xs text-blue-300 mt-0.5">{s.s}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* ── TABS ── */}
+      <div className="sticky top-0 z-40 glass-nav">
+        <div className="max-w-6xl mx-auto px-4 py-2 flex gap-2 overflow-x-auto">
+          {Object.entries(t.nav).map(([k,v])=>(
+            <button key={k} onClick={()=>setTab(k)}
+              className={`px-4 py-2 rounded-full text-sm font-black whitespace-nowrap transition ${tab===k?'tab-on':'tab-off'}`}>
+              {v}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-4 md:px-6 py-8 space-y-8">
+
+        {/* ══════════ OVERVIEW ══════════ */}
+        {tab==='overview' && (
+          <div className="space-y-8">
+            <h2 className="text-3xl font-black text-slate-800">{t.ov.title}</h2>
+
+            {/* KPIs */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {t.ov.kpi.map((k,i)=>(
+                <div key={i} className="card p-5 text-center">
+                  <div className="text-2xl mb-2">{k.icon}</div>
+                  <div className="text-xs text-slate-400 font-bold mb-1">{k.l}</div>
+                  <div className="text-lg font-black text-slate-800">{k.v}</div>
+                  <div className="text-xs text-indigo-600 font-bold mt-1">{k.s}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Business segments */}
+            <div>
+              <h3 className="text-xl font-black text-slate-800 mb-4">{t.ov.biz_title}</h3>
+              <div className="grid md:grid-cols-2 gap-4">
+                {t.ov.biz.map((b,i)=>(
+                  <div key={i} className="card p-5 flex gap-4 items-start">
+                    <span className="text-3xl shrink-0">{b.icon}</span>
+                    <div>
+                      <div className="font-black text-slate-800 mb-1">{b.t}</div>
+                      <div className="text-sm text-slate-500 leading-relaxed">{b.d}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* BD Timeline */}
+            <div>
+              <h3 className="text-xl font-black text-slate-800 mb-6">{t.ov.bd_title}</h3>
+              <div className="relative pl-8 timeline-line space-y-4">
+                {t.ov.bd_timeline.map((tl,i)=>{
+                  const isWarn=tl.status==='warn';
+                  const isActive=tl.status==='active';
+                  const isFuture=tl.status==='future';
+                  return (
+                    <div key={i} className="relative">
+                      <div className={`absolute -left-[41px] w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-black
+                        ${isWarn?'bg-amber-500':isActive?'bg-red-500 pulse':isFuture?'bg-slate-300':'bg-indigo-600'}`}>
+                        {isActive?'!':isFuture?'○':'✓'}
+                      </div>
+                      <div className={`${isWarn?'tl-item-warn':isActive?'tl-item-active':isFuture?'tl-item-future':'tl-item'} rounded-2xl p-4`}>
+                        <span className={`text-xs font-black mr-2 bdg ${isWarn?'bg-amber-100 text-amber-700':isActive?'bg-red-100 text-red-600':isFuture?'bg-slate-100 text-slate-500':'bg-indigo-100 text-indigo-600'}`}>{tl.year}</span>
+                        <span className="text-sm font-bold text-slate-700">{tl.txt}</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ══════════ FINANCIAL ANALYSIS ══════════ */}
+        {tab==='fin' && (
+          <div className="space-y-8">
+            <div>
+              <h2 className="text-3xl font-black text-slate-800 mb-1">{t.fin.title}</h2>
+              <p className="text-slate-500">{t.fin.sub}</p>
+            </div>
+
+            {/* Income statement bars */}
+            <div className="card p-6">
+              <h3 className="text-xl font-black text-slate-800 mb-6">{t.fin.income_title}</h3>
+              <div className="grid md:grid-cols-3 gap-8">
+                <div>
+                  <div className="text-sm font-black text-slate-600 mb-3">{lang==='en'?'Revenue':lang==='ko'?'매출액':'營收'}</div>
+                  <BarChart data={FIN.years.map((y,i)=>({year:y,val:FIN.revenue[i]}))} maxVal={180} colors={['bg-indigo-300','bg-indigo-400','bg-indigo-600']}/>
+                </div>
+                <div>
+                  <div className="text-sm font-black text-slate-600 mb-3">{lang==='en'?'Operating Income':lang==='ko'?'영업이익':'營業利益'}</div>
+                  <BarChart data={FIN.years.map((y,i)=>({year:y,val:FIN.op_income[i]}))} maxVal={20} colors={['bg-cyan-300','bg-cyan-400','bg-cyan-600']}/>
+                </div>
+                <div>
+                  <div className="text-sm font-black text-slate-600 mb-3">{lang==='en'?'Net Income':lang==='ko'?'순이익':'淨利潤'}</div>
+                  <BarChart data={FIN.years.map((y,i)=>({year:y,val:FIN.net_income[i]}))} maxVal={15} colors={['bg-emerald-300','bg-emerald-400','bg-emerald-600']}/>
+                </div>
+              </div>
+            </div>
+
+            {/* Ratio table */}
+            <div className="card overflow-hidden">
+              <div className="px-6 py-4 bg-slate-800">
+                <h3 className="text-white font-black">{t.fin.ratio_title}</h3>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-white/8">
+                      <th className="text-left px-6 py-3 font-black text-slate-600">{lang==='en'?'Metric':lang==='ko'?'지표':'指標'}</th>
+                      {FIN.years.map(y=><th key={y} className="text-center px-4 py-3 font-black text-slate-600">{y}</th>)}
+                      <th className="text-center px-4 py-3 font-black text-slate-600">{lang==='en'?'Trend':lang==='ko'?'추세':'趨勢'}</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {[
+                      {label:lang==='en'?'Operating Margin (%)':lang==='ko'?'영업이익률 (%)':'營業利益率 (%)', vals:FIN.op_margin, good:true},
+                      {label:lang==='en'?'Net Margin (%)':lang==='ko'?'순이익률 (%)':'淨利率 (%)', vals:FIN.net_margin, good:true},
+                      {label:lang==='en'?'ROE (%)':lang==='ko'?'ROE (%)':'ROE (%)', vals:FIN.roe, good:true},
+                      {label:lang==='en'?'Debt Ratio (%)':lang==='ko'?'부채비율 (%)':'負債比率 (%)', vals:FIN.debt_ratio, good:false},
+                      {label:lang==='en'?'EPS (KRW)':lang==='ko'?'EPS (원)':'EPS（韓元）', vals:FIN.eps, good:true},
+                    ].map((row,i)=>(
+                      <tr key={i} className="hover:bg-white/5 transition">
+                        <td className="px-6 py-3 font-bold text-slate-700">{row.label}</td>
+                        {row.vals.map((v,j)=>(
+                          <td key={j} className="text-center px-4 py-3 font-black text-slate-800">{v.toLocaleString()}</td>
+                        ))}
+                        <td className="text-center px-4 py-3">
+                          <span className={`bdg ${row.good?'bg-green-100 text-green-700':'bg-green-100 text-green-700'}`}>
+                            {row.good?'📈 ↑':'📉 ↓'}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* FCF */}
+            <div className="card p-6">
+              <h3 className="text-xl font-black text-slate-800 mb-2">{t.fin.fcf_title}</h3>
+              <p className="text-sm text-slate-500 mb-6">{t.fin.fcf_note}</p>
+              <div className="grid grid-cols-3 gap-4 mb-4">
+                {FIN.years.map((y,i)=>(
+                  <div key={i} className={`rounded-2xl p-5 text-center text-white ${GMAP[i]}`}>
+                    <div className="text-xs font-black opacity-80 mb-1">{y}</div>
+                    <div className="text-3xl font-black">{FIN.fcf[i]}</div>
+                    <div className="text-xs opacity-80">{lang==='en'?'trillion KRW':lang==='ko'?'조 원':'兆韓元'}</div>
+                    {i>0 && <div className="text-xs font-black mt-2 bg-white/20 rounded-full px-2 py-0.5">
+                      +{((FIN.fcf[i]-FIN.fcf[i-1])/FIN.fcf[i-1]*100).toFixed(1)}%
+                    </div>}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Summary */}
+            <div>
+              <h3 className="text-xl font-black text-slate-800 mb-4">{t.fin.summary_title}</h3>
+              <div className="grid md:grid-cols-2 gap-4">
+                {t.fin.summary.map((s,i)=>(
+                  <div key={i} className="card p-5 flex gap-4 items-start">
+                    <span className="text-2xl shrink-0">{s.icon}</span>
+                    <div>
+                      <div className="font-black text-slate-800 mb-1">{s.t}</div>
+                      <div className="text-sm text-slate-500 leading-relaxed">{s.d}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ══════════ VALUATION ══════════ */}
+        {tab==='val' && (
+          <div className="space-y-8">
+            <div>
+              <h2 className="text-3xl font-black text-slate-800 mb-1">{t.val.title}</h2>
+              <p className="text-slate-500">{t.val.sub}</p>
+            </div>
+
+            {/* Peer comparison */}
+            <div className="card overflow-hidden">
+              <div className="px-6 py-4 bg-slate-800">
+                <h3 className="text-white font-black">{t.val.peer_title}</h3>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-white/8">
+                      <th className="text-left px-6 py-3 font-black text-slate-600">{lang==='en'?'Company':lang==='ko'?'기업':'企業'}</th>
+                      <th className="text-center px-4 py-3 font-black text-slate-600">PER (x)</th>
+                      <th className="text-center px-4 py-3 font-black text-slate-600">EV/EBITDA (x)</th>
+                      <th className="text-center px-4 py-3 font-black text-slate-600">ROE (%)</th>
+                      <th className="text-center px-4 py-3 font-black text-slate-600">{lang==='en'?'Op. Margin':lang==='ko'?'영업이익률':'營業利益率'} (%)</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {PEERS.map((p,i)=>(
+                      <tr key={i} className={`hover:bg-white/5 transition ${i===0?'bg-indigo-50':''}`}>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-3">
+                            <span className={`w-8 h-8 rounded-xl flex items-center justify-center text-white text-xs font-black ${p.color}`}>{p.name.slice(0,2)}</span>
+                            <div>
+                              <div className="font-black text-slate-800">{p.name}</div>
+                              <div className="text-xs text-slate-400">{p.ticker}</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="text-center px-4 py-4">
+                          <span className={`font-black ${i===0?'text-indigo-700 text-lg':'text-slate-700'}`}>{p.per}x</span>
+                        </td>
+                        <td className="text-center px-4 py-4 font-black text-slate-700">{p.ev_ebitda}x</td>
+                        <td className="text-center px-4 py-4 font-black text-slate-700">{p.roe}%</td>
+                        <td className="text-center px-4 py-4 font-black text-slate-700">{p.op_margin}%</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="px-6 py-3 bg-slate-50 border-t border-slate-200">
+                <p className="text-xs text-slate-400">{t.val.peer_note}</p>
+              </div>
+            </div>
+
+            {/* DCF */}
+            <div className="card p-6">
+              <h3 className="text-xl font-black text-slate-800 mb-5">{t.val.dcf_title}</h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-3">
+                  {t.val.dcf_items.map((d,i)=>(
+                    <div key={i} className="flex items-start gap-3 p-3 item-bg">
+                      <span className="text-xs font-black text-slate-400 w-40 shrink-0 pt-0.5 leading-tight">{d.label}</span>
+                      <span className="text-sm font-black text-slate-800">{d.value}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl p-5 text-white flex flex-col justify-center">
+                  <div className="text-xs font-black text-indigo-200 mb-2">DCF {lang==='en'?'Verdict':lang==='ko'?'결론':'結論'}</div>
+                  <p className="text-sm text-white/90 leading-relaxed">{t.val.dcf_verdict}</p>
+                  <div className="mt-4 flex items-center gap-2">
+                    <span className="bdg bg-white/20 text-white">📉 {lang==='en'?'50–60% Undervalued':lang==='ko'?'50~60% 저평가':'低估 50~60%'}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* SOTP */}
+            <div className="card p-6">
+              <h3 className="text-xl font-black text-slate-800 mb-2">{t.val.sotp_title}</h3>
+              <p className="text-sm text-slate-500 mb-6">{t.val.sotp_note}</p>
+              <div className="space-y-4">
+                {SOTP_DATA.map((seg,i)=>(
+                  <div key={i} className="border border-slate-200 rounded-2xl p-4">
+                    <div className="flex items-start justify-between flex-wrap gap-2 mb-3">
+                      <div className="flex items-center gap-3">
+                        <span className={`w-8 h-8 rounded-xl flex items-center justify-center text-white text-xs font-black ${GMAP[i]}`}>{i+1}</span>
+                        <div>
+                          <div className="font-black text-slate-800">{lang==='ko'?seg.seg:lang==='en'?seg.seg:seg.zh}</div>
+                          <div className="text-xs text-slate-400">{seg.method}</div>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-xs text-slate-400">{lang==='en'?'Range':lang==='ko'?'범위':'範圍'}</div>
+                        <div className="font-black text-slate-800">₩{seg.val_low}~{seg.val_high}{lang==='en'?' T':lang==='ko'?'조':' 兆'}</div>
+                      </div>
+                    </div>
+                    <div className="bar-bg">
+                      <div className={`bar-fill ${['bg-indigo-500','bg-cyan-500','bg-emerald-500'][i]}`} style={{width:`${(seg.val_mid/45)*100}%`}}/>
+                    </div>
+                    <p className="text-xs text-slate-400 mt-2">{lang==='ko'?seg.note_ko:lang==='en'?seg.note_ko:seg.note_zh}</p>
+                  </div>
+                ))}
+                {/* Total vs Market */}
+                <div className="sotp-dark rounded-2xl p-5 text-white">
+                  <div className="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                      <div className="text-xs text-white/60 mb-1">SOTP {lang==='en'?'Sum (Mid)':lang==='ko'?'합산 (중간값)':'加總（中位）'}</div>
+                      <div className="text-2xl font-black text-emerald-400">≈ ₩64{lang==='en'?'T':lang==='ko'?'조':'兆'}</div>
+                    </div>
+                    <div className="flex items-center justify-center">
+                      <span className="text-3xl font-black text-white/40">vs</span>
+                    </div>
+                    <div>
+                      <div className="text-xs text-white/60 mb-1">{lang==='en'?'Market Cap':lang==='ko'?'시가총액':'整體市值'}</div>
+                      <div className="text-2xl font-black text-red-400">≈ ₩40{lang==='en'?'T':lang==='ko'?'조':'兆'}</div>
+                    </div>
+                  </div>
+                  <div className="mt-4 text-center">
+                    <span className="bdg bg-amber-400/20 text-amber-300">⚠️ {lang==='en'?'Conglomerate Discount ~37%':lang==='ko'?'기업집단 할인 ~37%':'企業折價約 37%'}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-4 p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
+                <h4 className="font-black text-emerald-800 mb-2">💡 {t.val.sotp_verdict_title}</h4>
+                <p className="text-sm text-emerald-700 leading-relaxed">{t.val.sotp_verdict}</p>
+              </div>
+            </div>
+
+            {/* Overall verdict */}
+            <div>
+              <h3 className="text-xl font-black text-slate-800 mb-4">{t.val.overall_title}</h3>
+              <div className="grid md:grid-cols-2 gap-4">
+                {t.val.overall.map((v,i)=>(
+                  <div key={i} className="card p-5">
+                    <div className="flex justify-between items-start mb-2">
+                      <span className="text-sm font-black text-slate-600">{v.method}</span>
+                      <span className={`bdg ${v.result==='합리'||v.result==='合理'||v.result==='Fair'?'bg-yellow-100 text-yellow-700':'bg-red-100 text-red-700'}`}>{v.result}</span>
+                    </div>
+                    <p className="text-sm text-slate-500">{v.detail}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ══════════ STRATEGY ══════════ */}
+        {tab==='strategy' && (
+          <div className="space-y-8">
+            <div>
+              <h2 className="text-3xl font-black text-slate-800 mb-1">{t.strategy.title}</h2>
+              <p className="text-slate-500">{t.strategy.sub}</p>
+            </div>
+
+            {/* CFO section */}
+            <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-6 text-white">
+              <h3 className="text-xl font-black mb-2">{t.strategy.cfo_title}</h3>
+              <p className="text-white/70 text-sm">{t.strategy.cfo_verdict}</p>
+            </div>
+
+            <h3 className="text-xl font-black text-slate-800">{t.strategy.scenarios_title}</h3>
+            {t.strategy.scenarios.map((sc,i)=>(
+              <div key={i} className="card overflow-hidden">
+                <div className={`${sc.color} p-5 text-white`}>
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center gap-3">
+                      <span className="text-3xl">{sc.icon}</span>
+                      <div>
+                        <div className="text-xs font-black opacity-70">{sc.no}</div>
+                        <h4 className="text-lg font-black">{sc.title}</h4>
+                      </div>
+                    </div>
+                    <span className="text-xs bg-white/20 rounded-full px-3 py-1 font-black">{sc.verdict}</span>
+                  </div>
+                </div>
+                <div className="p-5 grid md:grid-cols-2 gap-5">
+                  <div>
+                    <div className="text-xs font-black text-emerald-600 mb-2">✅ {sc.pros_title}</div>
+                    <ul className="space-y-1">
+                      {sc.pros.map((p,j)=><li key={j} className="text-sm text-slate-600 flex gap-2 items-start"><span className="text-emerald-500 shrink-0">›</span>{p}</li>)}
+                    </ul>
+                  </div>
+                  <div>
+                    <div className="text-xs font-black text-red-500 mb-2">⚠️ {sc.cons_title}</div>
+                    <ul className="space-y-1">
+                      {sc.cons.map((c,j)=><li key={j} className="text-sm text-slate-600 flex gap-2 items-start"><span className="text-red-400 shrink-0">›</span>{c}</li>)}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {/* Capital allocation */}
+            <div className="card p-6">
+              <h3 className="text-xl font-black text-slate-800 mb-5">{t.strategy.capex_title}</h3>
+              <div className="space-y-4">
+                {t.strategy.capex.map((c,i)=>(
+                  <div key={i}>
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-sm font-black text-slate-700">{c.label}</span>
+                      <span className="text-sm font-black text-slate-500">{c.pct}%</span>
+                    </div>
+                    <div className="bar-bg">
+                      <div className={`bar-fill ${c.color}`} style={{width:`${c.pct}%`}}/>
+                    </div>
+                    <div className="text-xs text-slate-400 mt-1">{c.note}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Investor section */}
+            <div className="bg-gradient-to-br from-indigo-50 to-blue-50 border border-indigo-200 rounded-2xl p-6">
+              <h3 className="text-xl font-black text-slate-800 mb-2">{t.strategy.inv_title}</h3>
+              <p className="text-slate-500 text-sm mb-5">{t.strategy.inv_verdict}</p>
+              <div className={`rounded-2xl p-5 mb-5 ${t.strategy.inv_rating.color}`}>
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-3xl font-black text-green-700">{t.strategy.inv_rating.rating}</span>
+                  <span className="bdg bg-green-600 text-white">{t.strategy.inv_rating.price_target}</span>
+                </div>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <div className="text-xs font-black text-green-700 mb-2">📈 {lang==='en'?'Rationale':lang==='ko'?'근거':'買入理由'}</div>
+                    {t.strategy.inv_rating.rationale.map((r,i)=>(
+                      <div key={i} className="flex gap-2 items-start mb-1">
+                        <span className="text-green-600 shrink-0 text-xs mt-0.5">✓</span>
+                        <span className="text-xs text-slate-700">{r}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div>
+                    <div className="text-xs font-black text-red-600 mb-2">⚠️ {lang==='en'?'Key Risks':lang==='ko'?'주요 리스크':'主要風險'}</div>
+                    {t.strategy.inv_rating.risks.map((r,i)=>(
+                      <div key={i} className="flex gap-2 items-start mb-1">
+                        <span className="text-red-500 shrink-0 text-xs mt-0.5">›</span>
+                        <span className="text-xs text-slate-700">{r}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Catalysts */}
+            <div>
+              <h3 className="text-xl font-black text-slate-800 mb-4">{t.strategy.catalyst_title}</h3>
+              <div className="grid md:grid-cols-2 gap-4">
+                {t.strategy.catalysts.map((c,i)=>(
+                  <div key={i} className="card p-5 flex gap-4 items-start">
+                    <span className="text-3xl shrink-0">{c.icon}</span>
+                    <div>
+                      <div className="font-black text-slate-800 mb-1">{c.t}</div>
+                      <div className="text-sm text-slate-500">{c.d}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ══════════ REFERENCES ══════════ */}
+        {tab==='refs' && (
+          <div className="space-y-8">
+            <div>
+              <h2 className="text-3xl font-black text-slate-800 mb-1">{t.refs.title}</h2>
+              <p className="text-slate-500">{t.refs.sub}</p>
+            </div>
+            <div className="note-amber border border-amber-200/40 rounded-2xl p-4">
+              <p className="text-sm text-amber-800 font-bold">📝 {t.refs.note}</p>
+            </div>
+            <div className="space-y-3">
+              {REFS.map((r,i)=>(
+                <div key={i} className="refcard card p-5">
+                  <div className="flex items-start gap-4">
+                    <span className={`w-10 h-10 rounded-xl flex items-center justify-center text-white font-black text-xs shrink-0 ${GMAP[i%6]}`}>{r.no}</span>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-black text-slate-800 text-sm leading-snug mb-1">{r.title}</h4>
+                      <div className="flex flex-wrap gap-3 mb-3">
+                        <span className="text-xs text-slate-500 font-bold">📰 {r.src}</span>
+                        <span className="text-xs text-slate-400">🗓 {r.date}</span>
+                      </div>
+                      <a href={r.url} target="_blank" rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-xs font-black text-indigo-600 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-lg transition">
+                        🔗 {t.refs.visit} →
+                      </a>
+                      <div className="mt-1 text-xs text-slate-300 font-mono truncate">{r.url}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="card p-6">
+              <h3 className="font-black text-lg text-slate-800 mb-4">📊 {t.refs.add_title}</h3>
+              <div className="grid md:grid-cols-2 gap-2">
+                {t.refs.add_sources.map((s,i)=>(
+                  <div key={i} className="flex gap-2 items-start p-3 item-bg">
+                    <span className="text-slate-400 shrink-0 text-xs mt-0.5 font-black">[{REFS.length+i+1}]</span>
+                    <span className="text-xs text-slate-600">{s}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ══════════ PROJECT LOG ══════════ */}
+        {tab==='log' && (
+          <div className="space-y-8">
+            <div>
+              <h2 className="text-3xl font-black text-slate-800 mb-1">{t.log.title}</h2>
+              <p className="text-slate-500">{t.log.sub}</p>
+            </div>
+
+            {/* Members */}
+            <div className="space-y-5">
+              {PROJ_LOG.map((m,i)=>(
+                <div key={i} className="card overflow-hidden">
+                  <div className={`${GMAP[i]} p-4 text-white flex items-center gap-4`}>
+                    <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center font-black text-lg">{i+1}</div>
+                    <div>
+                      <div className="font-black text-lg">{m.member}</div>
+                      <div className="text-white/70 text-xs">{t.log.role}</div>
+                    </div>
+                  </div>
+                  <div className="p-5">
+                    <ul className="space-y-2">
+                      {(lang==='ko'?m.tasks_ko:lang==='en'?m.tasks_en:m.tasks_zh).map((task,j)=>(
+                        <li key={j} className="flex gap-3 items-start">
+                          <span className="w-5 h-5 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-xs font-black shrink-0 mt-0.5">{j+1}</span>
+                          <span className="text-sm text-slate-600">{task}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Timeline */}
+            <div>
+              <h3 className="text-xl font-black text-slate-800 mb-5">{lang==='en'?'Project Timeline':lang==='ko'?'프로젝트 타임라인':'專案時程'}</h3>
+              <div className="card overflow-hidden">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-slate-800 text-white">
+                      <th className="text-left px-5 py-3 font-black">{lang==='en'?'Phase':lang==='ko'?'단계':'階段'}</th>
+                      <th className="text-left px-5 py-3 font-black">{lang==='en'?'Period':lang==='ko'?'기간':'期間'}</th>
+                      <th className="text-left px-5 py-3 font-black">{lang==='en'?'Deliverable':lang==='ko'?'결과물':'交付內容'}</th>
+                      <th className="text-center px-5 py-3 font-black">{lang==='en'?'Owner':lang==='ko'?'담당':'負責'}</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {t.log.phases.map((ph,i)=>{
+                      const isMile = ph.ph==='Proposal'||ph.ph==='Final'||ph.ph==='최종 발표';
+                      return(
+                        <tr key={i} className={`${isMile?'bg-indigo-50':i%2===0?'bg-white':'bg-slate-50'} hover:bg-indigo-50 transition`}>
+                          <td className="px-5 py-3">
+                            <span className={`bdg ${isMile?'bg-indigo-600 text-white':'bg-slate-100 text-slate-600'}`}>{ph.ph}</span>
+                          </td>
+                          <td className="px-5 py-3 font-bold text-slate-700">📅 {ph.period}</td>
+                          <td className="px-5 py-3 text-slate-600">{ph.task}</td>
+                          <td className="px-5 py-3 text-center">
+                            <span className="bdg bg-slate-100 text-slate-600">ALL</span>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+
+      </div>
+
+      {/* FOOTER */}
+      <footer className="mt-16 bg-slate-800 text-white px-6 py-8">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+          <div>
+            <div className="font-black text-lg">{t.ft_title}</div>
+            <div className="text-xs text-slate-400 mt-1">{t.ft_sub}</div>
+          </div>
+          <div className="flex gap-2 flex-wrap justify-center">
+            <span className="bdg bg-indigo-600 text-white">{lang==='en'?'CFO Perspective':lang==='ko'?'CFO 시각':'CFO 視角'}</span>
+            <span className="bdg bg-cyan-600 text-white">DCF + SOTP</span>
+            <span className="bdg bg-emerald-600 text-white">BD Nasdaq IPO</span>
+            <span className="bdg bg-amber-500 text-white">{lang==='en'?'BUY':lang==='ko'?'매수':'買入'} KRW 130~150K</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
